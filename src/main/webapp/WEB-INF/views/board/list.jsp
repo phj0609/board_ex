@@ -29,6 +29,7 @@ tr:nth-child(even) {
 				<th>등록일</th>
 				<th>수정일</th>
 			</tr>
+			<c:if test="${not empty list}">
 			<c:forEach items="${list}" var="b">
 				<tr>
 					<td>${b.bno}</td>
@@ -42,6 +43,14 @@ tr:nth-child(even) {
 							value="${updateDate}" pattern="yyyy-MM-dd HH:mm" /></td>
 				</tr>
 			</c:forEach>
+			</c:if>
+			<c:if test="${empty list }">
+				<tr>
+					<td colspan="5">
+						게시글이 존재하지 않습니다.
+					</td>
+				</tr>
+			</c:if>
 		</table>
 		<ul class="pagination">
 			<c:if test="${pageMaker.prev}">

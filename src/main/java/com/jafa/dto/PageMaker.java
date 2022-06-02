@@ -28,7 +28,7 @@ public class PageMaker {
 
 		
 		// 412 / 10 = 41.2 ==올림==> 42
-		prev = startPage == 1 ? false : true;
-		next = endPage >= tempEndPage ? false : true;
+		prev = startPage != 1; 
+		next = endPage< tempEndPage;
 	}
 }
