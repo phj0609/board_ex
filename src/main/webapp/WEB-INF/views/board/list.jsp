@@ -45,6 +45,12 @@ tr:nth-child(even) {background-color: #f2f2f2;}
 		</tr>
 	</c:forEach>
 </table>
+시작페이지 : ${pageMaker.startPage}<br>
+끝페이지 : ${pageMaker.endPage}<br>
+<c:forEach begin="${pageMaker.startPage}" end="${pageMaker.endPage}" var="pageNum">
+	<a href="?page=${pageNum}">[${pageNum}]</a>
+</c:forEach> 
+
 <a href="${pageContext.request.contextPath}/board/register" class="btn btn-primary">글 등록</a>
 	${message}
 </body>

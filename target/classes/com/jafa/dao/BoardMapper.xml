@@ -6,7 +6,11 @@
 <mapper namespace="com.jafa.dao.BoardMapper">
 
   <select id="getList" resultType="com.jafa.dto.Board">
-  	select * from board_tbl limit #{pageStart},#{perPageNum};
+  	select * from board_tbl limit #{pageStart},#{perPageNum}
+  </select>
+  
+  <select id="totalCount" resultType="Integer">
+  	select count(*) from board_tbl
   </select>
 	
 	<select id="findByBno" resultType="com.jafa.dto.Board">

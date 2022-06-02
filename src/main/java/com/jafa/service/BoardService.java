@@ -38,4 +38,8 @@ public class BoardService {
 		
 	}
 	
+	public int totalCount() {
+		return mapper.totalCount();
+	}
+	
 }

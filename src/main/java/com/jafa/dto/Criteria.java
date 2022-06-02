@@ -7,16 +7,14 @@ public class Criteria {
 	
 	public Criteria() {
 		this.page=1;
-		this.perPageNum = 20;
+		this.perPageNum = 10;
 	}
 
 	public int getPage() {
-		System.out.println("페이지 번호 가져옴");
 		return page;
 	}
 
 	public void setPage(int page) {
-		System.out.println("페이지 번호 설정");
 		this.page = page;
 	}
 

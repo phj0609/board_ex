@@ -11,5 +11,6 @@ public interface BoardMapper {
 	Board findByBno(Long bno);
 	void update(Board board);
 	void delete(Long bno);
+	int totalCount();
 	
 }
