@@ -4,8 +4,9 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
 <mapper namespace="com.jafa.dao.BoardMapper">
+
   <select id="getList" resultType="com.jafa.dto.Board">
-  	select * from board_tbl order by bno desc
+  	select * from board_tbl limit #{pageStart},#{perPageNum};
   </select>
 	
 	<select id="findByBno" resultType="com.jafa.dto.Board">

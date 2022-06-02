@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.jafa.dao.BoardMapper;
 import com.jafa.dto.Board;
+import com.jafa.dto.Criteria;
 
 @Service
 public class BoardService {
@@ -14,8 +15,8 @@ public class BoardService {
 	@Autowired
 	private BoardMapper mapper; 
 	
-	public List<Board> getList() {
-		return mapper.getList();
+	public List<Board> getList(Criteria criteria) {
+		return mapper.getList(criteria);
 	}
 
 	public Board get(Long bno) {
