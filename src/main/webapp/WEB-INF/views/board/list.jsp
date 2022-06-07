@@ -80,7 +80,6 @@ tr:nth-child(even) {
 				<c:if test="${pageMaker.next}">
 					<li class="page-item"><a class="page-link" href="${pageMaker.endPage+1}">다음페이지</a></li>
 				</c:if>
-				<br>
 			</ul>
 		</form>
 			
@@ -94,6 +93,12 @@ tr:nth-child(even) {
 			e.preventDefault();
 			pageForm.find('input[name="page"]').val($(this).attr('href'));
 			
+			let keyword = pageForm.find('input[name="keyword"]').val();
+			if(keyword.trim() == '') {
+				let pageNum = $(pageForm).find('input[name="page"]').clone();
+				pageForm.empty();	
+				pageForm.append(pageNum);
+			}
 			$('#pageForm').submit();
 		});
 	})
