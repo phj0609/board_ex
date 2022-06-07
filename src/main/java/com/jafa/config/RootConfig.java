@@ -16,6 +16,7 @@ import com.zaxxer.hikari.HikariDataSource;
 
 @Configuration
 @MapperScan("com.jafa.dao")
+
 public class RootConfig {
 
 	@Bean
