@@ -10,7 +10,7 @@
 	<textarea rows="30" cols="70" name="content">
 		${board.content}
 	</textarea><br>
-	<button>등록</button>
+	<button class="btn btn-primary">등록</button>
 </form>
 </div>
 <%@ include file="/WEB-INF/views/layout/footer.jspf" %>

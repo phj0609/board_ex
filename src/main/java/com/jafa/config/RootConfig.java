@@ -8,22 +8,26 @@ import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
+import com.jafa.dao.ReplyMapper;
+import com.jafa.dto.ReplyVO;
 import com.jafa.service.BoardService;
+import com.jafa.service.ReplyService;
+import com.jafa.service.ReplyServiceImpl;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 
 @Configuration
 @MapperScan("com.jafa.dao")
-
 public class RootConfig {
 
 	@Bean
 	public DataSource dataSource() {
 		HikariConfig config = new HikariConfig();
 		config.setDriverClassName("com.mysql.cj.jdbc.Driver");
-		config.setJdbcUrl("jdbc:mysql://localhost/board_ex");
+		config.setJdbcUrl("jdbc:mysql://localhost/board");
 		config.setUsername("root");
 		config.setPassword("1234");
 		return new HikariDataSource(config);
@@ -40,4 +44,5 @@ public class RootConfig {
 	public BoardService boardService() {
 		return new BoardService();
 	}
+
 }

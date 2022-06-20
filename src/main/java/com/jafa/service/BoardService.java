@@ -25,17 +25,14 @@ public class BoardService {
 
 	public void remove(Long bno) {
 		mapper.delete(bno);
-		
 	}
 
 	public void register(Board board) {
 		mapper.insert(board);
-		
 	}
 
 	public void update(Board board) {
 		mapper.update(board);
-		
 	}
 	
 	public int totalCount(Criteria criteria) {
