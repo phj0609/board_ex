@@ -1,5 +1,6 @@
 package com.jafa.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -20,7 +21,7 @@ public class Criteria {
 		this.page = 1;
 		this.perPageNum = 10;
 	}
-
+	
 	public void setPage(int page) {
 		if (page <= 0)
 			this.page = 1;
@@ -37,5 +38,10 @@ public class Criteria {
 	// type.split("#") LEE#WCC#BB => {LEE, WCC, BB}
 	public String[] getTypeCollection() {
 		return this.type != null ? type.split("") : new String[] {};
+	}
+
+	public Criteria(int page, int perPageNum) {
+		this.page = page;
+		this.perPageNum = perPageNum;
 	}
 }
