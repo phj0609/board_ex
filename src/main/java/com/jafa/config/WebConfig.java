@@ -1,6 +1,8 @@
 package com.jafa.config;
 
 import javax.servlet.Filter;
+import javax.servlet.MultipartConfigElement;
+import javax.servlet.ServletRegistration.Dynamic;
 
 import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
@@ -29,5 +31,10 @@ public class WebConfig extends AbstractAnnotationConfigDispatcherServletInitiali
 		encodingFilter.setForceEncoding(true);
 		return new Filter[] {encodingFilter};
 	}
-
+	
+	@Override
+	protected void customizeRegistration(Dynamic registration) {
+		MultipartConfigElement multipartConfig = new MultipartConfigElement("c:\\storage\\temp", 20971520, 41943040, 20971520);
+		registration.setMultipartConfig(multipartConfig);
+	}
 }
