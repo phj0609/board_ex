@@ -39,6 +39,9 @@
 	<button id="addReplyBtn" type="button" class="btn btn-primary" data-toggle="modal"
 		data-target="#replyForm">댓글등록</button>
 
+	<div>
+		댓글 수 : ${board.replyCnt}
+	</div>
 	<!-- Modal -->
 	<div class="modal fade" id="replyForm" tabindex="-1" role="dialog"
 		aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
@@ -75,6 +78,7 @@
 		</div>
 	</div>
 
+	<!-- 댓글 -->
 	<div class="row">
 		<div class="col-sm-12">
 			<div class="panel panel-default">

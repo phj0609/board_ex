@@ -32,7 +32,7 @@ public class RootConfig {
 	public DataSource dataSource() {
 		HikariConfig config = new HikariConfig();
 		config.setDriverClassName("net.sf.log4jdbc.sql.jdbcapi.DriverSpy");
-		config.setJdbcUrl("jdbc:log4jdb:mysql://localhost/board");
+		config.setJdbcUrl("jdbc:log4jdbc:mysql://localhost/board");
 		config.setUsername("root");
 		config.setPassword("1234");
 		return new HikariDataSource(config);
@@ -45,14 +45,9 @@ public class RootConfig {
 		return sqlSessionFactoryBean.getObject();
 	}
 	
-	@Bean
-	public BoardService boardService() {
-		return new BoardService();
-	}
 	
 	@Bean
 	public DataSourceTransactionManager txManager() {
 		return new DataSourceTransactionManager(dataSource());
 	}
-
 }

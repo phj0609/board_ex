@@ -42,7 +42,7 @@ tr:nth-child(even) {
 			<c:forEach items="${list}" var="b">
 				<tr>
 					<td>${b.bno}</td>
-					<td><a href="get?bno=${b.bno}">${b.title}</a></td>
+					<td><a href="get?bno=${b.bno}">${b.title} <b>[${b.replyCnt}]</b></a></td>
 					<td>${b.writer}</td>
 					<td>
 						<fmt:parseDate var="regDate" value="${b.regDate}" pattern="yyyy-MM-dd'T'HH:mm:ss" />
