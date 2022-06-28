@@ -56,6 +56,29 @@ $(function(){
 			modal.modal("show");
 		})
 	})
+	
+	// 댓글 수정 처리
+	modalModBtn.on('click',function(){
+		let reply = {
+			rno : modal.data('rno'),
+			reply : modalInputReply.val(),
+		}
+		replyService.update(reply, function(result){
+			alert(result);
+			modal.modal('hide');
+			showList(1);
+		})
+	})
+	
+	// 댓글 삭제 처리
+	modalRemoveBtn.on('click',function(){
+		let rno = modal.data('rno');
+		replyService.remove(rno, function(result){
+			alert(result);
+			modal.modal('hide');
+			showList(1);
+		})
+	})
 
 	let replyUL = $('.chat');
 	function showList(page) {
