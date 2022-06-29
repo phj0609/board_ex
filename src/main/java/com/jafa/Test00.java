@@ -18,4 +18,9 @@ public class Test00 {
 		System.out.println(test);
 	}
 
+	@Test
+	public void test11() {
+		String contentType = "image...";
+		System.out.println(contentType.startsWith("Image"));
+	}
 }
