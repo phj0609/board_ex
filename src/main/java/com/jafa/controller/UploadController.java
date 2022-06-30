@@ -3,6 +3,9 @@ package com.jafa.controller;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.nio.file.Files;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -10,13 +13,18 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -87,6 +95,65 @@ public class UploadController {
 			}
 		}
 		return new ResponseEntity<List<AttachFileDTO>>(list, HttpStatus.OK);
+	}
+
+	@GetMapping("/display")
+	@ResponseBody
+	public ResponseEntity<byte[]> getFile(String fileName) {
+		File file = new File("C:\\storage\\" + fileName);
+		ResponseEntity<byte[]> result = null;
+		
+		HttpHeaders headers = new HttpHeaders();
+		try {
+			headers.add("Content-Type", Files.probeContentType(file.toPath()));
+			result = new ResponseEntity<>(FileCopyUtils.copyToByteArray(file),headers,HttpStatus.OK);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+	
+	@GetMapping(value = "/download", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
+	@ResponseBody
+	public ResponseEntity<Resource> downloadFile(@RequestHeader("User-Agent") String userAgent, String fileName) {
+		Resource resource = new FileSystemResource("C:\\storage\\"+ fileName);
+		HttpHeaders headers = new HttpHeaders();
+		
+		if(!resource.exists()) {
+			System.out.println("파일이 존재하지 않음");
+			return new ResponseEntity<Resource>(HttpStatus.NOT_FOUND);
+		}
+		String resourceName = resource.getFilename();
+		String resourceOriginalName = resourceName.substring(resourceName.indexOf("_")+1);
+		String downloadName = null;
+		
+		try {
+			downloadName = URLEncoder.encode(resourceOriginalName, "UTF-8");
+			headers.add("Content-Disposition", "attachment;fileName=" + downloadName);
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+		return new ResponseEntity<Resource>(resource, headers, HttpStatus.OK);
+	}
+	
+	@PostMapping("/deleteFile")
+	@ResponseBody
+	public ResponseEntity<String> deleteFile(String fileName, String type) {
+		File file;
+		try {
+			// 일반파일, 이미지 썸네일 삭제
+			file = new File("C:\\storage\\"+URLDecoder.decode(fileName, "utf-8"));
+			file.delete();
+			// 이미지 원본 삭제
+			if(type.equals("image")) {
+				String originFileName = file.getAbsolutePath().replace("s_", "");
+				file = new File(originFileName);
+				file.delete();
+			}
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+		return new ResponseEntity<String>("deleted", HttpStatus.OK);
 	}
 
 	private String getFolder() {
