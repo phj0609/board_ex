@@ -152,6 +152,7 @@ public class UploadController {
 			}
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
+			return new ResponseEntity<String>(HttpStatus.NOT_FOUND);
 		}
 		return new ResponseEntity<String>("deleted", HttpStatus.OK);
 	}

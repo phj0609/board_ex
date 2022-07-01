@@ -72,7 +72,7 @@
 		
 		let uploadResult = $('.uploadResult ul');
 		function showUploadFile(uploadResultArr) {
-			let str = "";
+			let str = ""; 
 			$(uploadResultArr).each(function(i,obj){
 				
 				if(!obj.image) { // 이미지가 아닌 경우
