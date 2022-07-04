@@ -38,6 +38,9 @@
   	<include refid="search"/>
   </select>
 	
+	<select id="get" resultType="com.jafa.dto.Board">
+		select * from board_tbl where bno = #{bno}
+	</select>
 	<select id="findByBno" resultType="com.jafa.dto.Board">
 		select * from board_tbl where bno=#{bno}
 	</select>

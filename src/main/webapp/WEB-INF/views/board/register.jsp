@@ -4,31 +4,30 @@
 <div class="container">
 	<form action="${pageContext.request.contextPath}/board/register"
 		method="post" id="registerForm">
-		제목 : <input type="text" name="title"> 작성자 : <input type="text"
-			name="writer"><br>
-		<br> 내용 :
-		<textarea rows="30" cols="57" name="content"></textarea>
-		<br>
-		<button>등록</button>
+		제목 : <input type="text" name="title"> 
+		작성자 : <input type="text" name="writer"><br> <br> 
+		내용 : <textarea rows="30" cols="57" name="content"></textarea>
+		<br> 
+		<button class="btn btn-primary">등록</button>
 	</form>
 
-	<div class="row">
+	<div class="row my-5">
 		<div class="col-lg-12">
-			<div class="panel panel-default">
-				<div class="panel-heading">
+			<div class="card">
+				<div class="card-header">
 					<h4>파일 첨부</h4>
 				</div>
-				<div class="panel-body">
+				<div class="card-body">
 					<div class="form-group uploadDiv">
 						<input type="file" name="uploadFile" multiple="multiple">
 					</div>
 					<div class="uploadResult">
-						<ul></ul>
+						<ul class="list-group"></ul>
 					</div>
 				</div>
-				<!-- panel body -->
+				<!-- card body -->
 			</div>
-			<!-- panel end -->
+			<!-- card end -->
 		</div>
 		<!-- col end -->
 	</div>
@@ -57,22 +56,25 @@ function showUploadResult(uploadResultArr) {
 	let str = "";
 	$(uploadResultArr).each(function(i,obj){
 		
-		if(!obj.image) { // 이미지가 아닌 경우
+		if(!obj.fileType) { // 이미지가 아닌 경우
 			let fileCellPath = encodeURIComponent(obj.uploadPath + "/" + obj.uuid + "_" + obj.fileName);
 			
-			
-			str += "<li><img src='${contextPath}/resources/img/attach.png' style='width:50px;'>"		
+			str += "<li class='list-group-item' data-path='"+obj.uploadPath+"'";
+			str += "data-uuid='"+obj.uuid+"' data-filename='"+obj.fileName+"' data-type='"+obj.fileType+"'>";
+			str += "<img src='${contextPath}/resources/img/attach.png' style='width:50px;'>"		
 			str += "<a href='${contextPath}/download?fileName=" + fileCellPath+ "'>" +  obj.fileName+ "</a>"
-			str += "<span data-file='"+fileCellPath+"' data-type='file'>삭제</span>"
+			str += "<div class='d-flex justify-content-end'><span data-file='"+fileCellPath+"' data-type='file'><button class='btn btn-danger'>삭제</button></span>"
 			str += "</li>"
 		} else { // 이미지인 경우
 			let fileCellPath = encodeURIComponent(obj.uploadPath + "/s_" + obj.uuid + "_" + obj.fileName);
 			let originPath = obj.uploadPath+"\\"+obj.uuid+"_"+obj.fileName;
 			originPath = originPath.replace(new RegExp(/\\/g),"/");
 
-			str += "<li><img src='${contextPath}/display/?fileName="+fileCellPath+"'>";
+			str += "<li class='list-group-item' data-path='"+obj.uploadPath+"'";
+			str += "data-uuid='"+obj.uuid+"' data-filename='"+obj.fileName+"' data-type='"+obj.fileType+"'>";
+			str += "<img src='${contextPath}/display/?fileName="+fileCellPath+"'>";
 			str += "<a href='javascript:showImage(\""+originPath+"\")'>이미지원본보기</a>";
-			str += "<br><span data-file='"+fileCellPath+"' data-type='image'>삭제</span>"
+			str += "<div class='d-flex justify-content-end'><span data-file='"+fileCellPath+"' data-type='image'><button class='btn btn-danger'>삭제</button></span>"
 			str += "</li>"
 		}
 		
@@ -82,10 +84,25 @@ function showUploadResult(uploadResultArr) {
 
 $(function(){
 	let form = $('#registerForm');
-	let submitBtn = $('registerForm button')
-	form.on('click', function(e){
+	let submitBtn = $('#registerForm button')
+	
+	// 글쓰기 처리
+	submitBtn.on('click', function(e){
 		e.preventDefault();
-		console.log("폼 기본동작 금지")
+		
+		let str = "";
+		$('.uploadResult li').each(function(i,obj){
+			let jobj =$(obj);
+			// console.log(jobj);
+			// console.log(jobj.data('filename'));
+			
+			str += "<input type='hidden' name='attachList["+i+"].fileName' value='"+jobj.data('filename')+"'>";
+			str += "<input type='hidden' name='attachList["+i+"].uuid' value='"+jobj.data('uuid')+"'>";
+			str += "<input type='hidden' name='attachList["+i+"].uploadPath' value='"+jobj.data('path')+"'>";
+			str += "<input type='hidden' name='attachList["+i+"].fileType' value='"+jobj.data('type')+"'>";
+			
+		});
+		form.append(str).submit();
 	})
 	
 	// 파일업로드

@@ -15,7 +15,7 @@ import lombok.ToString;
 @ToString
 public class BoardAttachVO {
 	private String uuid;
-	private String uploadfile;
+	private String uploadPath;
 	private String fileName;
 	private boolean fileType;
 	private Long bno; 

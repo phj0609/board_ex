@@ -28,7 +28,7 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.jafa.dto.AttachFileDTO;
+import com.jafa.dto.BoardAttachVO;
 
 import net.coobird.thumbnailator.Thumbnailator;
 
@@ -63,38 +63,38 @@ public class UploadController {
 
 	@PostMapping(value = "/uploadAjaxAction", produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public ResponseEntity<List<AttachFileDTO>> uploadAjaxPost(MultipartFile[] uploadFile) {
-		List<AttachFileDTO> list = new ArrayList<AttachFileDTO>(); // 리스트 생성
+	public ResponseEntity<List<BoardAttachVO>> uploadAjaxPost(MultipartFile[] uploadFile) {
+		List<BoardAttachVO> list = new ArrayList<BoardAttachVO>(); // 리스트 생성
 		File uploadPath = new File("C:/storage", getFolder());
 		if (!uploadPath.exists()) {
 			uploadPath.mkdirs(); // C:\\storage\\2022\\06\\28
 		}
 
 		for (MultipartFile multipartFile : uploadFile) {
-			AttachFileDTO attachFileDTO = new AttachFileDTO(); // 객체 생성
+			BoardAttachVO attachVo = new BoardAttachVO(); // 객체 생성
 			String uploadFileName = multipartFile.getOriginalFilename();
 
-			attachFileDTO.setFileName(uploadFileName); // uuid 문자열 적용전
+			attachVo.setFileName(uploadFileName); // uuid 문자열 적용전
 			UUID uuid = UUID.randomUUID();
 			uploadFileName = uuid.toString() + "_" + uploadFileName;
 
 			File savefile = new File(uploadPath, uploadFileName);
 			try {
 				multipartFile.transferTo(savefile);  
-				attachFileDTO.setUuid(uuid.toString()); // uuid
-				attachFileDTO.setUploadPath(getFolder()); // 업로드 폴더
+				attachVo.setUuid(uuid.toString()); // uuid
+				attachVo.setUploadPath(getFolder()); // 업로드 폴더
 
 				if (checkImageType(savefile)) {
-					attachFileDTO.setImage(true); // 이미지 여부
+					attachVo.setFileType(true); // 이미지 여부
 					FileOutputStream thumbnail = new FileOutputStream(new File(uploadPath, "s_" + uploadFileName));
 					Thumbnailator.createThumbnail(multipartFile.getInputStream(), thumbnail, 100, 100);
 				}
-				list.add(attachFileDTO); // 리스트 추가
+				list.add(attachVo); // 리스트 추가
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}
-		return new ResponseEntity<List<AttachFileDTO>>(list, HttpStatus.OK);
+		return new ResponseEntity<List<BoardAttachVO>>(list, HttpStatus.OK);
 	}
 
 	@GetMapping("/display")

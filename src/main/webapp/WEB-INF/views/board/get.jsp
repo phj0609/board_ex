@@ -33,6 +33,25 @@
 		<input type="hidden" name="bno" value="${board.bno}">
 		<button class="btn btn-success">목록으로</button>
 	</form>
+	
+	<div class="row my-5">
+		<div class="col-lg-12">
+			<div class="card">
+				<div class="card-header">
+					<h4>파일 첨부</h4>
+				</div>
+				<div class="card-body">
+					<div class="uploadResult">
+						<ul class="list-group"></ul>
+					</div>
+				</div>
+				<!-- card body -->
+			</div>
+			<!-- card end -->
+		</div>
+		<!-- col end -->
+	</div>
+	<!-- row end -->
 
 	<!-- 댓글 등록 -->
 	<!-- Button trigger modal -->
