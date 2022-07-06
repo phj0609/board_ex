@@ -21,19 +21,21 @@
 	</p>
 
 	<div>내용 : ${board.content}</div>
-	<form action="${contextPath}/board/remove" method="post">
-		<input type="hidden" name="bno" value="${board.bno}">
-		<button class="btn btn-danger">삭제</button>
-	</form>
-	<form action="${contextPath}/board/modify">
-		<input type="hidden" name="bno" value="${board.bno}">
-		<button class="btn btn-warning">수정</button>
-	</form>
-	<form action="${contextPath}/board/list">
-		<input type="hidden" name="bno" value="${board.bno}">
-		<button class="btn btn-success">목록으로</button>
-	</form>
-	
+	<div class="d-flex">
+		<form action="${contextPath}/board/remove" method="post">
+			<input type="hidden" name="bno" value="${board.bno}">
+			<button class="btn btn-danger">삭제</button>
+		</form>
+		<form action="${contextPath}/board/modify" class="mx-2">
+			<input type="hidden" name="bno" value="${board.bno}" >
+			<button class="btn btn-warning">수정</button>
+		</form>
+		<form action="${contextPath}/board/list" class="mx-1">
+			<input type="hidden" name="bno" value="${board.bno}" >
+			<button class="btn btn-success">목록</button>
+		</form>
+	</div>
+
 	<div class="row my-5">
 		<div class="col-lg-12">
 			<div class="card">
@@ -55,12 +57,10 @@
 
 	<!-- 댓글 등록 -->
 	<!-- Button trigger modal -->
-	<button id="addReplyBtn" type="button" class="btn btn-primary" data-toggle="modal"
-		data-target="#replyForm">댓글등록</button>
+	<button id="addReplyBtn" type="button" class="btn btn-primary"
+		data-toggle="modal" data-target="#replyForm">댓글등록</button>
 
-	<div>
-		댓글 수 : ${board.replyCnt}
-	</div>
+	<div>댓글 수 : ${board.replyCnt}</div>
 	<!-- Modal -->
 	<div class="modal fade" id="replyForm" tabindex="-1" role="dialog"
 		aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
@@ -75,23 +75,24 @@
 				</div>
 				<div class="modal-body">
 					<div class="form-group">
-						<label class="reply">내용입력</label>
-						 	<input class="form-control" name="reply" id="reply">
+						<label class="reply">내용입력</label> <input class="form-control"
+							name="reply" id="reply">
 					</div>
 					<div class="form-group">
-						<label class="replyer">작성자</label>
-						 	<input class="form-control" name="replyer" id="replyer">
+						<label class="replyer">작성자</label> <input class="form-control"
+							name="replyer" id="replyer">
 					</div>
 					<div class="form-group">
-						<label class="regDate">등록일</label>
-						 	<input class="form-control" name="regDate" id="regDate">
+						<label class="regDate">등록일</label> <input class="form-control"
+							name="regDate" id="regDate">
 					</div>
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-warning" id="modalModBtn">수정</button>
 					<button type="button" class="btn btn-danger" id="modalRemoveBtn">삭제</button>
 					<button type="button" class="btn btn-primary" id="modalRegisterBtn">등록</button>
-					<button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+					<button type="button" class="btn btn-secondary"
+						data-dismiss="modal">닫기</button>
 				</div>
 			</div>
 		</div>

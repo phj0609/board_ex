@@ -25,8 +25,8 @@ tr:nth-child(even) {
 			<option value="C" ${pageMaker.criteria.type eq 'C' ? 'selected':''}>내용</option>
 			<option value="W" ${pageMaker.criteria.type eq 'W' ? 'selected':''}>작성자</option>
 		</select>
-		<input type="text" name="keyword" value="${pageMaker.criteria.keyword}">
-		<button class="btn btn-primary">검색</button>
+		<input type="text" name="keyword" value="${pageMaker.criteria.keyword}" placeholder="Search">
+		<button type="button" class="btn btn-outline-primary">검색</button>
 	</form>
 </div>
 <table class="table">

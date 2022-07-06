@@ -4,9 +4,9 @@
 <div class="container">
 	<form action="${pageContext.request.contextPath}/board/register"
 		method="post" id="registerForm">
-		제목 : <input type="text" name="title"> 
-		작성자 : <input type="text" name="writer"><br> <br> 
-		내용 : <textarea rows="30" cols="57" name="content"></textarea>
+		제목 : <input type="text" name="title" placeholder="제목을 입력하세요."> 
+		작성자 : <input type="text" name="writer" placeholder="작성자를 입력하세요."><br><br> 
+		내용 : <textarea rows="30" cols="57" name="content" placeholder="내용을 입력하세요."></textarea>
 		<br> 
 		<button class="btn btn-primary">등록</button>
 	</form>
@@ -129,6 +129,7 @@ $(function(){
 		});
 	})
 	
+	// 파일 삭제
 	$('.uploadResult ul').on('click','span', function(){
 		let targetFile = $(this).data('file');
 		let type = $(this).data('type');

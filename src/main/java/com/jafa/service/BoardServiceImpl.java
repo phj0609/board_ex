@@ -29,7 +29,9 @@ public class BoardServiceImpl implements BoardService{
 		return mapper.findByBno(bno);
 	}
 	
+	@Transactional
 	public void remove(Long bno) {
+		attachMapper.deleteAll(bno);
 		mapper.delete(bno);
 	}
 
@@ -43,8 +45,16 @@ public class BoardServiceImpl implements BoardService{
 		});
 	}
 
+	@Transactional
 	public void update(Board board) {
+		attachMapper.deleteAll(board.getBno());
 		mapper.update(board);
+		if(board.getAttachList()!=null) {
+			board.getAttachList().forEach(attach -> {
+				attach.setBno(board.getBno());
+				attachMapper.insert(attach);
+			});
+		}
 	}
 	
 	public int totalCount(Criteria criteria) {
@@ -55,5 +65,6 @@ public class BoardServiceImpl implements BoardService{
 	public List<BoardAttachVO> getAttachList(Long bno) {
 		return attachMapper.findByBno(bno);
 	}
+	
 	
 }

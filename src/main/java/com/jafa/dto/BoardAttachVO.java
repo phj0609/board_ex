@@ -21,4 +21,5 @@ public class BoardAttachVO {
 	private Long bno; 
 	
 	private List<BoardAttachVO> attachList;
+
 }

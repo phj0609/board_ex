@@ -1,5 +1,9 @@
 package com.jafa.controller;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,10 +38,6 @@ public class BoardController {
 		PageMaker pageMaker = new PageMaker();
 		pageMaker.setCriteria(criteria);
 		pageMaker.setTotalCount(service.totalCount(criteria));
-		// ?page=1 -> 시작페이지 : 1 끝페이지 10
-		// ?page=10 -> 시작페이지 : 1 끝페이지 10
-		// ?page=11 -> 시작페이지 : 11 끝페이지 20
-		// ?page=19 -> 시작페이지 : 11 끝페이지 20
 		List<Board> list = service.getList(criteria);
 		model.addAttribute("list", list);
 		model.addAttribute("pageMaker", pageMaker);
@@ -52,7 +52,9 @@ public class BoardController {
 	}
 
 	@PostMapping("/remove")
-	public String delete(Long bno, RedirectAttributes rttr) {
+	public String remove(Long bno, RedirectAttributes rttr) {
+		List<BoardAttachVO> attachList = service.getAttachList(bno);
+		deleteFiles(attachList);
 		service.remove(bno);
 		rttr.addFlashAttribute("message", bno + "번 삭제함");
 		return "redirect:list";
@@ -81,11 +83,36 @@ public class BoardController {
 		service.update(board);
 		return "redirect:list";
 	}
-	
+
 	@GetMapping(value = "/getAttachList", produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public ResponseEntity<List<BoardAttachVO>> getAttachList(Long bno) {
 		List<BoardAttachVO> attachList = service.getAttachList(bno);
 		return new ResponseEntity<>(attachList, HttpStatus.OK);
+	}
+
+	private void deleteFiles(List<BoardAttachVO> attachList) {
+		if (attachList == null || attachList.size() == 0)
+			return;
+
+		attachList.forEach(attach -> {
+			// uploadPath, uuid, fileName
+			Path file = Paths
+					.get("C:/storage/" + attach.getUploadPath() + "/" + attach.getUuid() + "_" + attach.getFileName());
+			System.out.println(file);
+			try {
+				Files.deleteIfExists(file);
+				if (Files.probeContentType(file).startsWith("image")) {
+					Path thumbNail = Paths.get("C:/storage/" + attach.getUploadPath() + "/s_" + attach.getUuid() + "_"
+							+ attach.getFileName());
+					System.out.println(thumbNail);
+					Files.deleteIfExists(thumbNail);
+				}
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+
+		});
+
 	}
 }
