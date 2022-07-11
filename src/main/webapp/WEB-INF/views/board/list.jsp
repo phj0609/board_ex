@@ -40,6 +40,22 @@ tr:nth-child(even) {
 			</tr>
 			<c:if test="${not empty list}">
 			<c:forEach items="${list}" var="b">
+				<%-- <div>
+					<a href="get?bno=${b.bno}">
+						<script>
+						$.getJSON(contextPath + "/board/getAttachList", { bno: "${b.bno}" }, function(attachList) {
+							$(attachList).each(function(i, obj) {
+								let fileCellPath = encodeURIComponent(obj.uploadPath + "/s_" + obj.uuid + "_" + obj.fileName);
+								let originPath = obj.uploadPath + "\\" + obj.uuid + "_" + obj.fileName;
+								originPath = originPath.replace(new RegExp(/\\/g), "/");
+								('img').attr("src","${contextPath}/display?fileName="+fileCellPath)
+							}
+						}
+						</script>
+						<img alt="" src="${contextPath}/display">
+					</a>
+				</div> --%>
+		
 				<tr>
 					<td>${b.bno}</td>
 					<td><a href="get?bno=${b.bno}">${b.title} <b>[${b.replyCnt}]</b></a></td>
@@ -53,6 +69,7 @@ tr:nth-child(even) {
 						<fmt:formatDate value="${updateDate}" pattern="yyyy-MM-dd HH:mm" /> 
 					</td>
 				</tr>
+				 
 			</c:forEach>
 			</c:if>
 			<c:if test="${empty list }">

@@ -9,23 +9,18 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-@Getter
-@Setter 
 @ToString
-@AllArgsConstructor 
+@Getter
+@Setter
+@AllArgsConstructor
 @NoArgsConstructor
-public class Board {
-	
-	private long bno; // 게시물 번호
-	private String title;
-	private String content;
-	private String writer;
-	private int ReplyCnt;
+public class MemberVO {
+	private String userId;
+	private String userPw;
+	private String userName;
+	private boolean enabled;
 	private LocalDateTime regDate;
 	private LocalDateTime updateDate;
-	
-	private List<BoardAttachVO> attachList;
-	// attachList[0].uuid
-	// attachList[1]
-	
+	private List<AuthVO> authList;
+
 }
