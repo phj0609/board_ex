@@ -4,6 +4,7 @@
 <div class="container">
 	<form action="${pageContext.request.contextPath}/board/register"
 		method="post" id="registerForm">
+		<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"><br>
 		제목 : <input type="text" name="title" placeholder="제목을 입력하세요."> 
 		작성자 : <input type="text" name="writer" placeholder="작성자를 입력하세요."><br><br> 
 		내용 : <textarea rows="30" cols="57" name="content" placeholder="내용을 입력하세요."></textarea>

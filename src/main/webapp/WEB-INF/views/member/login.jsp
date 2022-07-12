@@ -10,15 +10,18 @@
 	</div>
 	 	<form action="${contextPath}/member/login" method="post">
 			<div class="form-group">
-				<input type="text" name="loginId" placeholder="아이디" class="form-control">
+				<input type="text" name="loginId" value="${loginId}" placeholder="아이디" class="form-control">
 			</div>
 			<div class="form-group">
-				<input type="password" name="loginPw" placeholder="비밀번호" class="form-control">
+				<input type="password" name="loginPw" value="${loginPw}" placeholder="비밀번호" class="form-control">
 			</div>
 			<div class="form-group">
-				<label>Remember Me</label>
-				<input type="checkbox" name="remember-me" class="form-control">
+				<input type="checkbox" name="remember-me" id="remember-me">				
+				<label for="remember-me">Remember Me</label>
 			</div>	 		 	
+			<div class="error_area">
+				${errorMessage}	
+			</div>
 			<div class="form-group">
 				<button class="btn btn-primary form-control">로그인</button>
 			</div>
@@ -29,4 +32,5 @@
 <%@ include file="/WEB-INF/views/layout/footer.jspf" %>
 <style>
 	.loginForm {width: 400px; margin:auto;}
+	.error_area {color: red; text-align: center; }
 </style>

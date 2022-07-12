@@ -3,10 +3,17 @@
 <%@ include file="/WEB-INF/views/layout/header.jspf" %>
 
 <div class="container">
+	<sec:authentication property="principal.memberVO.userId" var="userId"/>
 	<h2>회원 페이지</h2>
-	<form action="${contextPath}/customLogout" method="post">
-		<button class="btn btn-primary">로그아웃</button>
-		<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
-	</form>
+	<div class="d-flex">
+		<form action="${contextPath}/customLogout" method="post" class="mx-2">
+			<button class="btn btn-primary">로그아웃</button>
+			<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
+		</form>
+		<form action="${contextPath}/anno/myPage/${userId}" method="get">
+			<button class="btn btn-primary">마이페이지</button>
+			<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
+		</form>
+	</div>
 </div>
 <%@ include file="/WEB-INF/views/layout/footer.jspf" %>
