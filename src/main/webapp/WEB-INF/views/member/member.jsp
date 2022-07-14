@@ -10,10 +10,7 @@
 			<button class="btn btn-primary">로그아웃</button>
 			<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
 		</form>
-		<form action="${contextPath}/anno/myPage/${userId}" method="get">
-			<button class="btn btn-primary">마이페이지</button>
-			<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
-		</form>
+		<a href="${contextPath}/anno/myPage/${userId}" class="btn btn-primary">마이페이지</a>
 	</div>
 </div>
 <%@ include file="/WEB-INF/views/layout/footer.jspf" %>

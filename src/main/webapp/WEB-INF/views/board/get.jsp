@@ -3,36 +3,49 @@
 
 <%@ include file="/WEB-INF/views/layout/header.jspf"%>
 <script src="${contextPath}/resources/js/get.js"></script>
-<div class="container">
-	<h2>게시글조회</h2>
-	<p>제목 : ${board.title }</p>
-	<p>작성자 : ${board.writer }</p>
-	<p>
-		작성일 :
-		<fmt:parseDate var="regDate" value="${board.regDate}"
-			pattern="yyyy-MM-dd'T'HH:mm:ss" />
-		<fmt:formatDate value="${regDate}" pattern="yyyy-MM-dd HH:mm" />
-	</p>
-	<p>
-		수정일 :
-		<fmt:parseDate var="updateDate" value="${board.updateDate}"
-			pattern="yyyy-MM-dd'T'HH:mm:ss" />
-		<fmt:formatDate value="${updateDate}" pattern="yyyy-MM-dd HH:mm" />
-	</p>
+<sec:authorize access="isAuthenticated()">
+	<sec:authentication property="principal.username" var="userId"/>
+</sec:authorize>
 
-	<div>내용 : ${board.content}</div>
-	<div class="d-flex">
-		<form action="${contextPath}/board/remove" method="post">
-			<input type="hidden" name="bno" value="${board.bno}">
-			<button class="btn btn-danger">삭제</button>
-		</form>
-		<form action="${contextPath}/board/modify" class="mx-2">
-			<input type="hidden" name="bno" value="${board.bno}" >
-			<button class="btn btn-warning">수정</button>
-		</form>
-		<form action="${contextPath}/board/list" class="mx-1">
-			<input type="hidden" name="bno" value="${board.bno}" >
-			<button class="btn btn-success">목록</button>
+<div class="container">
+	<div class="getData">
+		<input type="hidden" name="page" id="page" value="${param.page}">
+		<input type="hidden" name="type" id="type" value="${param.type}">
+		<input type="hidden" name="keyword" id="keyword" value="${param.keyword}">
+	</div>
+	<form id="getForm">
+		<h2>게시글조회</h2>
+		<p>제목 : ${board.title }</p>
+		<p>작성자 : ${board.writer }</p>
+		<p>
+			작성일 :
+			<fmt:parseDate var="regDate" value="${board.regDate}"
+				pattern="yyyy-MM-dd'T'HH:mm:ss" />
+			<fmt:formatDate value="${regDate}" pattern="yyyy-MM-dd HH:mm:ss" />
+		</p>
+		<p>
+			수정일 :
+			<fmt:parseDate var="updateDate" value="${board.updateDate}"
+				pattern="yyyy-MM-dd'T'HH:mm:ss" />
+			<fmt:formatDate value="${updateDate}" pattern="yyyy-MM-dd HH:mm:ss" />
+			조회수 : ${board.viewCount} 
+		</p>
+		<div>내용 : ${board.content}</div>
+		<div class="d-flex">
+			<c:if test="${userId eq board.writer}">
+			<form action="${contextPath}/board/remove" method="post">
+				<input type="hidden" name="bno" value="${board.bno}">
+				<button class="btn btn-danger">삭제</button>
+			</form>
+			<form action="${contextPath}/board/modify" class="mx-2">
+				<input type="hidden" name="bno" value="${board.bno}" >
+				<button class="btn btn-warning">수정</button>
+			</form>
+			</c:if>
+			<form action="${contextPath}/board/list" class="mx-1">
+				<input type="hidden" name="bno" value="${board.bno}" >
+				<button class="btn btn-success">목록</button>
+			</form>
 		</form>
 	</div>
 
@@ -57,8 +70,15 @@
 
 	<!-- 댓글 등록 -->
 	<!-- Button trigger modal -->
+	<sec:authorize access="isAuthenticated()">
 	<button id="addReplyBtn" type="button" class="btn btn-primary"
-		data-toggle="modal" data-target="#replyForm">댓글등록</button>
+		data-toggle="modal" data-target="#replyForm">
+		댓글등록
+	</button>
+	</sec:authorize>
+	<sec:authorize access="isAnonymous()">
+		댓글을 등록하시려면 로그인하세요
+	</sec:authorize>
 
 	<div>댓글 수 : ${board.replyCnt}</div>
 	<!-- Modal -->
@@ -120,6 +140,30 @@
 
 <script>
 
+$(function(){	
+	let getForm = $("#getForm");
+	$('#getForm .list').on('click',function(){ // 목록페이지
+		getForm.empty();
+		getForm.append($('#page'));
+		getForm.append($('#type'));
+		getForm.append($('#keyword'));
+		getForm.attr("action","list");
+		getForm.submit();	
+	})
+	$('#getForm .modify').on('click',function(){ // 수정페이지
+		getForm.attr("action","modify");
+		getForm.submit();	
+	})
+	$('#getForm .remove').on('click',function(){ // 삭제처리
+		getForm.append($('#writer'))
+		getForm.attr("method","post");
+		getForm.attr("action","remove");
+		getForm.submit();
+	});
+	
+	let bno = $('input[name="bno"]').val();
+	
+})
 
 // 댓글 등록 테스트
 /* $(function(){
@@ -137,6 +181,7 @@
 }) */
 
 $(function(){
+	// 목록 테스트
 	let bnoValue = $('input[name="bno"]').val();
 	
 	replyService.getList({bno:bnoValue},function(list){

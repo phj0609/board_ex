@@ -9,8 +9,8 @@ import com.jafa.dto.Criteria;
 
 public interface BoardMapper {
 	List<Board> getList(Criteria criteria);
+	Board get(Long bno);
 	void insert(Board board);
-	Board findByBno(Long bno);
 	void update(Board board);
 	void delete(Long bno);
 	int totalCount(Criteria criteria);
@@ -18,4 +18,9 @@ public interface BoardMapper {
 		@Param("bno") Long bno,
 		@Param("amount") int amount
 	);
+	void addViewCount(Long bno);
+	
+	Board findByBno(Long bno);
 }
+
+

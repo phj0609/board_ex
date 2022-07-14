@@ -21,21 +21,27 @@ public class BoardServiceImpl implements BoardService{
 	@Autowired
 	private BoardAttachMapper attachMapper;
 	
+	@Override
 	public List<Board> getList(Criteria criteria) {
 		return mapper.getList(criteria);
 	}
 
-	public Board get(Long bno) {
-		return mapper.findByBno(bno);
+	@Transactional
+	@Override
+	public Board get(Long bno, boolean isAddCount) {
+		if(isAddCount) mapper.addViewCount(bno);
+		return mapper.get(bno);
 	}
 	
 	@Transactional
+	@Override
 	public void remove(Long bno) {
 		attachMapper.deleteAll(bno);
 		mapper.delete(bno);
 	}
 
 	@Transactional
+	@Override
 	public void register(Board board) {
 		mapper.insert(board);
 		if(board.getAttachList()==null ||board.getAttachList().size()==0) return;
@@ -44,9 +50,10 @@ public class BoardServiceImpl implements BoardService{
 			attachMapper.insert(attach);
 		});
 	}
-
+	
 	@Transactional
-	public void update(Board board) {
+	@Override
+	public void modify(Board board) {
 		attachMapper.deleteAll(board.getBno());
 		mapper.update(board);
 		if(board.getAttachList()!=null) {
@@ -55,8 +62,10 @@ public class BoardServiceImpl implements BoardService{
 				attachMapper.insert(attach);
 			});
 		}
+		
 	}
 	
+	@Override
 	public int totalCount(Criteria criteria) {
 		return mapper.totalCount(criteria);
 	}
@@ -65,6 +74,8 @@ public class BoardServiceImpl implements BoardService{
 	public List<BoardAttachVO> getAttachList(Long bno) {
 		return attachMapper.findByBno(bno);
 	}
+
+	
 	
 	
 }

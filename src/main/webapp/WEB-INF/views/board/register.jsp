@@ -1,15 +1,32 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/views/layout/header.jspf"%>
+<sec:authentication property="principal.memberVO" var="memberVO"/>
+<sec:authentication property="principal.username" var="writer"/>
+
 <div class="container">
+	<div class="article_register my-4">
+		<h1>게시글 쓰기</h1>
+	</div>
+
 	<form action="${pageContext.request.contextPath}/board/register"
 		method="post" id="registerForm">
-		<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"><br>
-		제목 : <input type="text" name="title" placeholder="제목을 입력하세요."> 
-		작성자 : <input type="text" name="writer" placeholder="작성자를 입력하세요."><br><br> 
-		내용 : <textarea rows="30" cols="57" name="content" placeholder="내용을 입력하세요."></textarea>
-		<br> 
-		<button class="btn btn-primary">등록</button>
+		<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
+		<div class="form-group">
+			<label for="title">제목 : </label> 
+			<input type="text" name="title" placeholder="제목을 입력하세요." class="form-control">
+		</div> 
+		<div class="form-group">
+			<label for="title">내용 : </label>
+			<textarea rows="30" cols="50" name="content" placeholder="내용을 입력하세요." class="form-control"></textarea>
+		</div>
+		<div class="form-group">
+			<label for="title">작성자 : </label>
+			<input type="text" name="writer" readonly="readonly" placeholder="작성자를 입력하세요." class="form-control" value="${writer}">
+		</div> 
+		<div class="d-flex justify-content-end">
+			<button class="btn btn-primary">등록</button>
+		</div>
 	</form>
 
 	<div class="row my-5">

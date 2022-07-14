@@ -8,17 +8,11 @@ import com.jafa.dto.Criteria;
 
 public interface BoardService {
 	public List<Board> getList(Criteria criteria); 
-
-	public Board get(Long bno); 
-	
+	public Board get(Long bno, boolean isAddCount); 
 	public void remove(Long bno); 
-
 	public void register(Board board); 
-
-	public void update(Board board); 
-	
+	public void modify(Board board); 
 	public int totalCount(Criteria criteria); 
-	
 	public List<BoardAttachVO> getAttachList(Long bno);
 
 }

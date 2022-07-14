@@ -21,14 +21,13 @@ public class AnnoSecController {
 	}
 	
 	// 마이페이지
-	@PreAuthorize("hasAnyRole('ROLE_MEMBER','ROLE_ADMIN')")
+	@PreAuthorize("isAuthenticated()")
 	@GetMapping("/anno/myPage/{userId}")
 	public String myPage(@PathVariable String userId, 
 			@AuthenticationPrincipal CustomUser customUser, Model model) {
 		MemberVO vo = customUser.getMemberVO();
 		if(!vo.getUserId().equals(userId)) {
 			// 예외발생
-			System.out.println("예외발생");
 			throw new NotMatchUserIdException();
 		}
 		model.addAttribute("member",vo);

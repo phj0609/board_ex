@@ -21,6 +21,8 @@ public class Board {
 	private String content;
 	private String writer;
 	private int ReplyCnt;
+	private Long viewCount;
+
 	private LocalDateTime regDate;
 	private LocalDateTime updateDate;
 	

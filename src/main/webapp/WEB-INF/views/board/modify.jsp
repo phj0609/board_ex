@@ -4,7 +4,9 @@
 <div class="container">
 <h2>수정 페이지</h2>
 <form action="${contextPath}/board/update" method="post" id="modifyForm"> 
+	<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
 	<input type="hidden" name="bno" value="${board.bno}">
+	<input type="hidden" name="writer" value="${board.writer}">
 	제목 : <input type="text" name="title" value="${board.title}">
 	작성자 : <input type="text" name="writer" disabled="disabled" value="${board.writer}"><br><br>
 	내용 : <textarea rows="30" cols="57" name="content">
